@@ -2,29 +2,18 @@ import sys
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QGridLayout, QLineEdit, QMessageBox
 )
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QColor, QPainter, QIcon
-import ctypes
 import os
 
-# Load the library
-lib_path = os.path.abspath("aiio.so")
-lib = ctypes.cdll.LoadLibrary(lib_path)
-
-# Hàm kiểm tra input và output
-do = [0] * 16  # Output states
-
+# Giả lập hàm để không phụ thuộc vào aiio.so
 def set_do(port, val):
-    """Set output value for DO[port]."""
-    do[-(port + 1)] = val
-    dec = sum(do[i] * (2 ** (15 - i)) for i in range(len(do)))
-    lib.SetDOState(ctypes.c_uint16(0), ctypes.c_uint32(dec))
+    """Giả lập set output value cho DO[port]."""
     return "OK"
 
 def get_di():
-    """Get input values."""
-    di_state = lib.GetDIState(ctypes.c_uint16(0))
-    return [(di_state >> i) & 1 for i in range(16)]
+    """Giả lập input values."""
+    return [0] * 16
 
 class ColorLabel(QLabel):
     """Custom label to display colored square."""
@@ -81,6 +70,7 @@ class LoginWindow(QWidget):
         else:
             QMessageBox.critical(self, "Error", "Incorrect password!")
             self.password_input.clear()
+
 
 class MonitorApp(QWidget):
     def __init__(self):
@@ -215,6 +205,9 @@ class MonitorApp(QWidget):
         
         #enanled resize
         self.setGeometry(400, 300, 1200, 500)
+
+
+
 
     def update_inputs(self):
         """Update input states."""
