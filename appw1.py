@@ -5,9 +5,6 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QColor, QPainter, QIcon
 import os
-import cryptlog  # Import module cryptlog.py
-import json
-from cryptography.fernet import Fernet
 
 # Giả lập hàm để không phụ thuộc vào aiio.so
 def set_do(port, val):
@@ -66,35 +63,8 @@ class LoginWindow(QWidget):
         layout.addWidget(self.login_button)
         self.setLayout(layout)
 
-    def get_admin_password(self):
-        """Retrieve Admin password from the encrypted file."""
-        try:
-            # Đường dẫn tới thư mục và file lưu thông tin
-            base_dir = os.path.join("login", "Admin")
-            encrypted_file = os.path.join(base_dir, "login_info.json")
-            key_file = os.path.join(base_dir, "key.key")
-            
-            # Giải mã tệp
-
-            username, password  = cryptlog.load_login_info('Admin')
-            return password
-
-            # decrypted_data = cryptlog.decrypt_password(encrypted_file, key_file)
-            # login_info = json.loads(decrypted_data)
-            
-            # # Lấy mật khẩu của user Admin
-            # return login_info.get("password", None)
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"Failed to retrieve password: {e}")
-            return None
-        
     def check_password(self):
-        admin_password = self.get_admin_password()
-        if not admin_password:
-            return  # Nếu không lấy được mật khẩu thì dừng lại
-        
-        # Kiểm tra mật khẩu nhập vào
-        if self.password_input.text() == admin_password:
+        if self.password_input.text() == "adlink":
             self.main_app.show()
             self.close()
         else:
@@ -290,10 +260,7 @@ class MonitorApp(QWidget):
         dialog = PasswordDialog(self)
         if dialog.exec_() == QDialog.Accepted:
             password = dialog.get_password()
-            # Lấy mật khẩu từ tệp mã hóa
-            password_per = LoginWindow(QWidget)
-            admin_password = password_per.get_admin_password()
-            if password == admin_password:
+            if password == "adlink":
                 self.has_permission = True
                 QMessageBox.information(self, "Permission Granted", "You now have permission to toggle outputs.")
                 self.set_all_button.setEnabled(True)
@@ -301,7 +268,6 @@ class MonitorApp(QWidget):
             else:
                 self.has_permission = False
                 QMessageBox.critical(self, "Access Denied", "Incorrect password! You cannot toggle outputs.")
-
 
     def update_inputs(self):
         """Update input states."""

@@ -1,8 +1,8 @@
 import sys
 from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QGridLayout, QLineEdit, QMessageBox
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QGridLayout, QLineEdit, QMessageBox, QDialog, QInputDialog, QDialogButtonBox
 )
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QColor, QPainter, QIcon
 import ctypes
 import os
@@ -82,6 +82,33 @@ class LoginWindow(QWidget):
             QMessageBox.critical(self, "Error", "Incorrect password!")
             self.password_input.clear()
 
+
+class PasswordDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Password Required")
+        self.setGeometry(850, 500, 300, 150)
+
+        layout = QVBoxLayout()
+
+        self.label = QLabel("Enter password to grant permission:")
+        layout.addWidget(self.label)
+
+        self.password_input = QLineEdit()
+        self.password_input.setEchoMode(QLineEdit.Password)  # Chế độ mật khẩu
+        layout.addWidget(self.password_input)
+
+        self.buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.buttons.accepted.connect(self.accept)
+        self.buttons.rejected.connect(self.reject)
+        layout.addWidget(self.buttons)
+
+        self.setLayout(layout)
+
+    def get_password(self):
+        return self.password_input.text()
+
+
 class MonitorApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -113,6 +140,25 @@ class MonitorApp(QWidget):
         low_text.setStyleSheet("font-size: 14px; padding: 2px;")
         explain_layout.addWidget(low_label)
         explain_layout.addWidget(low_text)
+
+        # Thêm nút cấp quyền
+        self.permission_button = QPushButton("Grant Permission")
+        self.permission_button.setStyleSheet("font-size: 14px; padding: 5px;")
+        self.permission_button.clicked.connect(self.request_permission)
+        explain_layout.addWidget(self.permission_button)
+
+        # Thêm nút Set All và Reset All
+        self.set_all_button = QPushButton("Set All")
+        self.set_all_button.setStyleSheet("font-size: 14px; padding: 5px;")
+        self.set_all_button.clicked.connect(self.set_all)
+        self.set_all_button.setEnabled(False)  # Disabled initially
+        explain_layout.addWidget(self.set_all_button)
+
+        self.reset_all_button = QPushButton("Reset All")
+        self.reset_all_button.setStyleSheet("font-size: 14px; padding: 5px;")
+        self.reset_all_button.clicked.connect(self.reset_all)
+        self.reset_all_button.setEnabled(False)  # Disabled initially
+        explain_layout.addWidget(self.reset_all_button)
 
         # Đặt widget này vào góc phải trên cùng của cửa sổ
         self.layout.addWidget(explain_widget, alignment=Qt.AlignRight | Qt.AlignTop)
@@ -213,8 +259,26 @@ class MonitorApp(QWidget):
         self.timer.timeout.connect(self.update_inputs)
         self.timer.start(500)  # Update every 500ms
         
-        #enanled resize
+        #enabling resize
         self.setGeometry(400, 300, 1200, 500)
+
+        # Biến flag để kiểm tra quyền
+        self.has_permission = False
+
+
+    def request_permission(self):
+        """Yêu cầu cấp quyền bằng cách hiển thị cửa sổ yêu cầu mật khẩu."""
+        dialog = PasswordDialog(self)
+        if dialog.exec_() == QDialog.Accepted:
+            password = dialog.get_password()
+            if password == "adlink":
+                self.has_permission = True
+                QMessageBox.information(self, "Permission Granted", "You now have permission to toggle outputs.")
+                self.set_all_button.setEnabled(True)
+                self.reset_all_button.setEnabled(True)
+            else:
+                self.has_permission = False
+                QMessageBox.critical(self, "Access Denied", "Incorrect password! You cannot toggle outputs.")
 
     def update_inputs(self):
         """Update input states."""
@@ -224,11 +288,33 @@ class MonitorApp(QWidget):
             self.input_labels[i].set_color(color)
 
     def toggle_output(self, port, state, button):
-        """Toggle output state."""
+        """Toggle output state only if the user has permission."""
+        if not self.has_permission:
+            QMessageBox.warning(self, "Permission Denied", "You do not have permission to toggle this output.")
+            button.setChecked(False)
+            return
+        
         set_do(port, int(state))
         color = "green" if state else "red"
         self.output_labels[port].set_color(color)
         button.setText("Reset" if state else "Set")  # Đổi text trên nút
+
+    def set_all(self):
+        """Set all outputs."""
+        if not self.has_permission:
+            QMessageBox.warning(self, "Permission Denied", "You do not have permission to toggle all outputs.")
+            return
+        for i in range(16):
+            self.toggle_output(i, True, self.output_buttons[i])  # Set tất cả output
+
+    def reset_all(self):
+        """Reset all outputs."""
+        if not self.has_permission:
+            QMessageBox.warning(self, "Permission Denied", "You do not have permission to reset all outputs.")
+            return
+        for i in range(16):
+            self.toggle_output(i, False, self.output_buttons[i])  # Reset tất cả output
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
