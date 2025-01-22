@@ -67,6 +67,11 @@ This application provides a GUI to monitor and control the input and output stat
 4. **Password Management**:
    - Passwords are securely encrypted and stored.
    - Use the `cryptlog.py` utility to manage encrypted login credentials.
+   - If you want to change password, use the `cryptlog.py`, follow;
+   ```bash
+   python cryptlog.py
+   ```
+   It is recommended that you enter creator and user  as "Admin"
 
 ## Files and Directories
 
