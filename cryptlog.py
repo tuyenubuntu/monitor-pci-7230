@@ -2,96 +2,94 @@ import os
 import json
 from cryptography.fernet import Fernet
 
-# Tạo key mã hóa (chỉ cần làm một lần)
+# Generate an encryption key (only needs to be done once)
 def generate_key():
     return Fernet.generate_key()
 
-# Lưu key mã hóa vào tệp
+# Save the encryption key to a file
 def save_key(key, filepath):
     with open(filepath, "wb") as key_file:
         key_file.write(key)
 
-# Đọc key từ tệp
+# Load the key from a file
 def load_key(filepath):
     with open(filepath, "rb") as key_file:
         return key_file.read()
 
-# Mã hóa mật khẩu
+# Encrypt a password
 def encrypt_password(password, key):
     f = Fernet(key)
     encrypted_password = f.encrypt(password.encode())
     return encrypted_password
 
-# Giải mã mật khẩu
+# Decrypt a password
 def decrypt_password(encrypted_password, key):
     f = Fernet(key)
     decrypted_password = f.decrypt(encrypted_password).decode()
     return decrypted_password
 
-# Lưu thông tin đăng nhập vào tệp JSON trong thư mục người tạo
+# Save login information to a JSON file in the creator's folder
 def save_login_info(creator, username, password, base_folder="login"):
-    # Tạo thư mục chính nếu chưa tồn tại
+    # Create the base folder if it doesn't exist
     os.makedirs(base_folder, exist_ok=True)
 
-    # Tạo thư mục riêng cho người tạo
+    # Create a folder for the creator
     creator_folder = os.path.join(base_folder, creator)
     os.makedirs(creator_folder, exist_ok=True)
 
-    # Đường dẫn tệp
+    # File paths
     key_filepath = os.path.join(creator_folder, "key.key")
     login_info_filepath = os.path.join(creator_folder, "login_info.json")
 
-    # Tạo key và mã hóa mật khẩu
+    # Generate a key and encrypt the password
     key = generate_key()
     save_key(key, key_filepath)
     encrypted_password = encrypt_password(password, key)
 
-    # Lưu thông tin đăng nhập vào tệp JSON
+    # Save login information to a JSON file
     login_info = {
         "username": username,
-        "password": encrypted_password.decode()  # Lưu mật khẩu đã mã hóa
+        "password": encrypted_password.decode()  # Store the encrypted password
     }
 
     with open(login_info_filepath, "w") as f:
         json.dump(login_info, f)
 
-    print(f"Thông tin đăng nhập đã được lưu tại: {creator_folder}")
+    print(f"Login information has been saved at: {creator_folder}")
 
-# Đọc thông tin đăng nhập từ tệp JSON
+# Load login information from a JSON file
 def load_login_info(creator, base_folder="login"):
-    # Đường dẫn tệp
+    # File paths
     creator_folder = os.path.join(base_folder, creator)
     key_filepath = os.path.join(creator_folder, "key.key")
     login_info_filepath = os.path.join(creator_folder, "login_info.json")
 
-    # Kiểm tra nếu thư mục hoặc tệp không tồn tại
+    # Check if the folder or file does not exist
     if not os.path.exists(key_filepath) or not os.path.exists(login_info_filepath):
-        print(f"Thông tin cho {creator} không tồn tại.")
+        print(f"Information for {creator} does not exist.")
         return None, None
 
-    # Đọc key và thông tin đăng nhập
+    # Load the key and login information
     key = load_key(key_filepath)
     with open(login_info_filepath, "r") as f:
         login_info = json.load(f)
 
-    # Giải mã mật khẩu
+    # Decrypt the password
     decrypted_password = decrypt_password(login_info["password"].encode(), key)
 
     return login_info["username"], decrypted_password
 
-
-# Ví dụ sử dụng
+# Example usage
 if __name__ == "__main__":
-    # Lưu thông tin đăng nhập
-    creator = input("Nhập tên người tạo: ")
-    username = input("Nhập tên người dùng: ")
-    password = input("Nhập mật khẩu: ")
+    # Save login information
+    creator = input("Enter creator name: ")
+    username = input("Enter username: ")
+    password = input("Enter password: ")
 
     save_login_info(creator, username, password)
 
-    # Đọc thông tin đăng nhập
+    # Load login information
     username, password = load_login_info(creator)
     if username and password:
         print(f"Username: {username}")
         print(f"Password: {password}")
-
