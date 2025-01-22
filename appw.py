@@ -70,9 +70,9 @@ class LoginWindow(QWidget):
         """Retrieve Admin password from the encrypted file."""
         try:
             # Đường dẫn tới thư mục và file lưu thông tin
-            base_dir = os.path.join("login", "Admin")
-            encrypted_file = os.path.join(base_dir, "login_info.json")
-            key_file = os.path.join(base_dir, "key.key")
+            # base_dir = os.path.join("login", "Admin")
+            # encrypted_file = os.path.join(base_dir, "login_info.json")
+            # key_file = os.path.join(base_dir, "key.key")
             
             # Giải mã tệp
 

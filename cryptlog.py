@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     # Đọc thông tin đăng nhập
     username, password = load_login_info(creator)
-    # if username and password:
-    #     print(f"Username: {username}")
-    #     print(f"Password: {password}")
+    if username and password:
+        print(f"Username: {username}")
+        print(f"Password: {password}")
 
