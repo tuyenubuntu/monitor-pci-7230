@@ -6,29 +6,85 @@ from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QColor, QPainter, QIcon
 import os
 import cryptlog  # Import module cryptlog.py
-import json
 from cryptography.fernet import Fernet
 import ctypes
-
+from bs4 import BeautifulSoup
 
 # Load the library
-lib_path = os.path.abspath("aiio.so")
+lib_path = os.path.abspath("root_lib/monitor7230.so")
 lib = ctypes.cdll.LoadLibrary(lib_path)
 
 # Hàm kiểm tra input và output
-do = [0] * 16  # Output states
+
+def get_do():
+    """Get input values."""
+    do_state = lib.GetDOState(ctypes.c_uint16(0))
+    return [(do_state >> i) & 1 for i in range(16)]
+#do = get_do() # Output states
 
 def set_do(port, val):
+    do = get_do()[::-1] # Output states
     """Set output value for DO[port]."""
     do[-(port + 1)] = val
     dec = sum(do[i] * (2 ** (15 - i)) for i in range(len(do)))
     lib.SetDOState(ctypes.c_uint16(0), ctypes.c_uint32(dec))
+    print (f"Digital Output {port} has been assigned : {val}")
     return "OK"
 
 def get_di():
     """Get input values."""
     di_state = lib.GetDIState(ctypes.c_uint16(0))
     return [(di_state >> i) & 1 for i in range(16)]
+
+
+def sync_do():
+    """Synchronize the DO states from hardware."""
+    global do
+    do_state = lib.GetDOState(ctypes.c_uint16(0))
+    do = [(do_state >> i) & 1 for i in range(16)]
+
+#get config
+def get_config(tag):
+    """Get config group based on the tag name
+
+    Args:
+        tag (string): name of config group to be gotten
+
+    Return:
+        config (dict or None): config group values to be gotten
+    """
+    # Đọc file cấu hình XML
+    with open('config/configuration.xml', 'r') as f:
+        config_file = f.read()
+
+    # Parse file XML
+    config_data = BeautifulSoup(config_file, 'xml')
+    di_config = {}
+    do_config = {}
+
+    if tag == "LOGIN":
+        return config_data.find(tag)
+
+    if tag == "IO":
+        # Lấy các thẻ PORT trong DI
+        for port in config_data.find('DI').find_all('PORT'):
+            id_ = int(port['id'])
+            function = port['function']
+            di_config[id_] = function
+
+        # Lấy các thẻ PORT trong DO
+        for port in config_data.find('DO').find_all('PORT'):
+            id_ = int(port['id'])
+            function = port['function']
+            do_config[id_] = function
+        return di_config, do_config
+    return None
+
+#Enable for login by password or not
+login_config = get_config("LOGIN")
+enable_password = login_config.find("ENABLE_PASSWORD_LOGIN").string.lower() == 'true'
+#label list DI and DO
+di_functions, do_functions = get_config("IO")
 
 class ColorLabel(QLabel):
     """Custom label to display colored square."""
@@ -81,25 +137,12 @@ class LoginWindow(QWidget):
     def get_admin_password(self):
         """Retrieve Admin password from the encrypted file."""
         try:
-            # Đường dẫn tới thư mục và file lưu thông tin
-            # base_dir = os.path.join("login", "Admin")
-            # encrypted_file = os.path.join(base_dir, "login_info.json")
-            # key_file = os.path.join(base_dir, "key.key")
-            
-            # Giải mã tệp
-
             username, password, Warning_  = cryptlog.load_login_info('Admin')
             if password :
                 return password
             if not password:
                 return Warning_
-            
 
-            # decrypted_data = cryptlog.decrypt_password(encrypted_file, key_file)
-            # login_info = json.loads(decrypted_data)
-            
-            # # Lấy mật khẩu của user Admin
-            # return login_info.get("password", None)
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to retrieve password: {e}")
             return None
@@ -114,7 +157,9 @@ class LoginWindow(QWidget):
         if self.password_input.text() == admin_password:
             self.main_app.show()
             self.close()
+            print ("Wellcome!!!")
         else:
+            print("Error", "Incorrect password!")
             QMessageBox.critical(self, "Error", "Incorrect password!")
             self.password_input.clear()
 
@@ -208,12 +253,6 @@ class MonitorApp(QWidget):
         input_layout = QGridLayout()
         input_layout.setSpacing(10)
 
-        # Mapping chức năng cho từng DI
-        di_functions = {
-            0: "Laser completed",
-            2: "Rework mode"
-        }
-
         for i in range(16):
             row_layout = QHBoxLayout()
 
@@ -240,14 +279,6 @@ class MonitorApp(QWidget):
         self.output_buttons = []
         output_layout = QGridLayout()
         output_layout.setSpacing(10)
-
-        # Mapping chức năng cho từng DO
-        do_functions = {
-            0: "Green light",
-            2: "Red light",
-            4: "Sent signal to Laser",
-            8: "Confirm"
-        }
 
         for i in range(16):
             row_layout = QHBoxLayout()
@@ -296,11 +327,10 @@ class MonitorApp(QWidget):
         self.timer.start(500)  # Update every 500ms
         
         #enabling resize
-        self.setGeometry(400, 300, 1200, 500)
+        self.setGeometry(400, 300, 1290, 500)
 
         # Biến flag để kiểm tra quyền
         self.has_permission = False
-
 
     def request_permission(self):
         """Yêu cầu cấp quyền bằng cách hiển thị cửa sổ yêu cầu mật khẩu."""
@@ -312,11 +342,13 @@ class MonitorApp(QWidget):
             admin_password = password_per.get_admin_password()
             if password == admin_password:
                 self.has_permission = True
+                print ("Permission Granted", "You now have permission to toggle outputs.")
                 QMessageBox.information(self, "Permission Granted", "You now have permission to toggle outputs.")
                 self.set_all_button.setEnabled(True)
                 self.reset_all_button.setEnabled(True)
             else:
                 self.has_permission = False
+                print ("Access Denied", "Incorrect password! You cannot toggle outputs.")
                 QMessageBox.critical(self, "Access Denied", "Incorrect password! You cannot toggle outputs.")
 
 
@@ -327,7 +359,17 @@ class MonitorApp(QWidget):
             color = "green" if state == 1 else "red"
             self.input_labels[i].set_color(color)
 
+        # Update DO (outputs) - kiểm tra trạng thái thực tế
+        do = get_do()
+        #print (do)
+        for i, state in enumerate(do):
+            color = "green" if state == 1 else "red"
+            self.output_labels[i].set_color(color)
+            self.output_buttons[i].setChecked(bool(state))
+            self.output_buttons[i].setText("Reset" if state else "Set")
+
     def toggle_output(self, port, state, button):
+        #sync_do()
         """Toggle output state only if the user has permission."""
         if not self.has_permission:
             QMessageBox.warning(self, "Permission Denied", "You do not have permission to toggle this output.")
@@ -361,7 +403,11 @@ if __name__ == "__main__":
     
     # Create main app and login window
     main_window = MonitorApp()
-    login_window = LoginWindow(main_window)
-    login_window.show()
+    if enable_password:
+        login_window = LoginWindow(main_window)
+        login_window.show()
+    else:
+        print ("Wellcome!!!")
+        main_window.show()
     
     sys.exit(app.exec_())

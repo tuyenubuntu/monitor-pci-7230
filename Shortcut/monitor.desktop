@@ -2,6 +2,6 @@
 Type=Application
 Name=Monitor App
 Exec=bash -c "cd ~/Documents/monitor/ ;./Shortcut/monitor.sh; exec bash"
-Icon=/home/itmop/Documents/monitor/Shortcut/IO.jpg
+Icon=/home/itmop/Documents/monitor/Shortcut/IO_COM.png
 Terminal=true
 X-Desktop-File-Install-Version=0.23

@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build DLL",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-shared",
+                "-o", "monitor.dll",
+                "root_lib/monitor.c",
+                "-I.",
+                "-L.",
+                "-lPCI-Dask64"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}

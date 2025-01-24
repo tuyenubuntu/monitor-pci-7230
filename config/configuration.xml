@@ -1,0 +1,43 @@
+<configuration>
+    <LINE_NAME>07</LINE_NAME>
+    <LOGIN>
+        <ENABLE_PASSWORD_LOGIN>true</ENABLE_PASSWORD_LOGIN>
+    </LOGIN>
+    <IO>
+        <DI>
+            <PORT function="Laser completed" id="0"/>
+            <PORT function="Reserve" id="1"/>
+            <PORT function="Rework mode" id="2"/>
+            <PORT function="Reserve" id="3"/>
+            <PORT function="Reserve" id="4"/>
+            <PORT function="Reserve" id="5"/>
+            <PORT function="Reserve" id="6"/>
+            <PORT function="Reserve" id="7"/>
+            <PORT function="Reserve" id="8"/>
+            <PORT function="Reserve" id="9"/>
+            <PORT function="Reserve" id="10"/>
+            <PORT function="Reserve" id="11"/>
+            <PORT function="Reserve" id="12"/>
+            <PORT function="Reserve" id="13"/>
+            <PORT function="Reserve" id="14"/>
+            <PORT function="Reserve" id="15"/>
+        </DI>
+        <DO>
+            <PORT function="Green light" id="0"/>
+            <PORT function="Reserve" id="1"/>
+            <PORT function="Red light" id="2"/>
+            <PORT function="Reserve" id="3"/>
+            <PORT function="Sent signal to Laser" id="4"/>
+            <PORT function="Reserve" id="5"/>
+            <PORT function="Reserve" id="6"/>
+            <PORT function="Reserve" id="7"/>
+            <PORT function="Confirm" id="8"/>
+            <PORT function="Reserve" id="9"/>
+            <PORT function="Reserve" id="10"/>
+            <PORT function="Reserve" id="11"/>
+            <PORT function="Reserve" id="12"/>
+            <PORT function="Reserve" id="13"/>
+            <PORT function="Reserve" id="14"/>
+            <PORT function="Reserve" id="15"/>
+        </DO>
+    </IO>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CONFIGURATION>
+ <DI>
+  <PORT function="Reserve" id="0"/>
+  <PORT function="Reserve" id="1"/>
+  <PORT function="Reserve" id="2"/>
+  <PORT function="Reserve" id="3"/>
+  <PORT function="Reserve" id="4"/>
+  <PORT function="Reserve" id="5"/>
+  <PORT function="Reserve" id="6"/>
+  <PORT function="Reserve" id="7"/>
+  <PORT function="Reserve" id="8"/>
+  <PORT function="Reserve" id="9"/>
+  <PORT function="Reserve" id="10"/>
+  <PORT function="Reserve" id="11"/>
+  <PORT function="Reserve" id="12"/>
+  <PORT function="Reserve" id="13"/>
+  <PORT function="Reserve" id="14"/>
+  <PORT function="Reserve" id="15"/>
+ </DI>
+ <DO>
+  <PORT function="Reserve" id="0"/>
+  <PORT function="Reserve" id="1"/>
+  <PORT function="Reserve" id="2"/>
+  <PORT function="Reserve" id="3"/>
+  <PORT function="Reserve" id="4"/>
+  <PORT function="Reserve" id="5"/>
+  <PORT function="Reserve" id="6"/>
+  <PORT function="Reserve" id="7"/>
+  <PORT function="Reserve" id="8"/>
+  <PORT function="Reserve" id="9"/>
+  <PORT function="Reserve" id="10"/>
+  <PORT function="Reserve" id="11"/>
+  <PORT function="Reserve" id="12"/>
+  <PORT function="Reserve" id="13"/>
+  <PORT function="Reserve" id="14"/>
+  <PORT function="Reserve" id="15"/>
+ </DO>
+</CONFIGURATION>
