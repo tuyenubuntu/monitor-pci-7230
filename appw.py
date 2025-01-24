@@ -76,8 +76,12 @@ class LoginWindow(QWidget):
             
             # Giải mã tệp
 
-            username, password  = cryptlog.load_login_info('Admin')
-            return password
+            username, password, Warning_  = cryptlog.load_login_info('Admin')
+            if password :
+                return password
+            if not password:
+                return Warning_
+            
 
             # decrypted_data = cryptlog.decrypt_password(encrypted_file, key_file)
             # login_info = json.loads(decrypted_data)
@@ -91,6 +95,7 @@ class LoginWindow(QWidget):
     def check_password(self):
         admin_password = self.get_admin_password()
         if not admin_password:
+            QMessageBox.critical(self, self.get_admin_password())
             return  # Nếu không lấy được mật khẩu thì dừng lại
         
         # Kiểm tra mật khẩu nhập vào

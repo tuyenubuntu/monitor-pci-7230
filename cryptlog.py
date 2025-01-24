@@ -67,7 +67,7 @@ def load_login_info(creator, base_folder="login"):
     # Check if the folder or file does not exist
     if not os.path.exists(key_filepath) or not os.path.exists(login_info_filepath):
         print(f"Information for {creator} does not exist.")
-        return None, None
+        return None, None, f"Information for {creator} does not exist."
 
     # Load the key and login information
     key = load_key(key_filepath)
@@ -77,7 +77,7 @@ def load_login_info(creator, base_folder="login"):
     # Decrypt the password
     decrypted_password = decrypt_password(login_info["password"].encode(), key)
 
-    return login_info["username"], decrypted_password
+    return login_info["username"], decrypted_password, None
 
 # Example usage
 if __name__ == "__main__":
