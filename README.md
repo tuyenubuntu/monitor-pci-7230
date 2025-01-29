@@ -39,6 +39,14 @@ This application provides a GUI to monitor and control the input and output stat
    ```bash
    pip install PyQt5 cryptography
    ```
+   
+      ```bash
+   pip install beautifulsoup4
+   ```
+
+      ```bash
+   pip install lxml
+   ```
 3. Place the PCI 7230 library (`aiio.so`) in the root directory of the project.
 4. Ensure the `cryptlog.py` module is available for handling encrypted passwords.
 
