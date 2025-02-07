@@ -98,6 +98,7 @@ Use configuration.xml (config file), focus into tag "IO", example:
 - For Digital Input:
 ```xml
 <DI>
+   <!-- <PORT function="Function of pin, that mean label" id="pin number" /> -->
    <PORT function="Laser completed" id="0"/>
    <PORT function="Reserve" id="1"/>
    <PORT function="Rework mode" id="2"/>
@@ -109,6 +110,7 @@ Use configuration.xml (config file), focus into tag "IO", example:
 - For Digital Output:
 ```xml
 <DO>
+   <!-- <PORT function="Function of pin, that mean label" id="pin number" /> -->
    <PORT function="Green light" id="0"/>
    <PORT function="Reserve" id="1"/>
    <PORT function="Red light" id="2"/>
