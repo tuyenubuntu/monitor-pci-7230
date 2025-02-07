@@ -19,8 +19,8 @@ def create_sample_config():
         do.append(port)
 
     # Save to file
-    os.makedirs('config', exist_ok=True)
-    with open('config/configuration_io.xml', 'w') as f:
+    os.makedirs('config_io', exist_ok=True)
+    with open('config_io/configuration_io.xml', 'w') as f:
         f.write(config.prettify())
 
 create_sample_config()
