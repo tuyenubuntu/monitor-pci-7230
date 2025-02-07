@@ -150,9 +150,10 @@ Use configuration.xml (config file), focus into tag "IO", example:
 
 ## Files and Directories
 
-- `main.py`: Main application file.
+- `app.py`: Main application file.
+- `appw.py`: Main application file for test graphics.
 - `cryptlog.py`: Module for handling password encryption and decryption.
-- `aiio.so`: PCI 7230 card library.
+- `root_lib/monitor7230.so`: PCI 7230 card library.
 - `Shortcut/IO_COM.png`: Application icon.
 - `login/Admin`: Directory containing encrypted admin credentials.
 
