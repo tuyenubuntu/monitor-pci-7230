@@ -1,6 +1,26 @@
-# monitor-pci-7230
-
+# Monitor-pci-7230
 # PCI 7230 Input/Output Monitor
+
+## Contents
+
+- [Monitor-pci-7230](#monitor-pci-7230)
+- [PCI 7230 Input/Output Monitor](#pci-7230-inputoutput-monitor)
+  - [Contents](#contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [1. **Running the Application**:](#1-running-the-application)
+  - [Resize/Config Windows](#resizeconfig-windows)
+  - [Label IO PINs](#label-io-pins)
+  - [Files and Directories](#files-and-directories)
+  - [Known Issues](#known-issues)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
+  - [Contact](#contact)
+
+## Overview
 
 This application provides a GUI to monitor and control the input and output states of a PCI 7230 card. It includes features such as real-time input monitoring, output control, and user authentication for access control.
 
@@ -52,7 +72,7 @@ This application provides a GUI to monitor and control the input and output stat
 
 ## Usage
 
-1. **Running the Application**:
+### 1. **Running the Application**:
    Ubuntu os
    ```bash
    python app.py
