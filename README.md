@@ -129,7 +129,7 @@ Use configuration.xml (config file), focus into tag "IO", example:
 
 ## Known Issues
 
-1. Ensure `aiio.so` is compiled correctly and matches your system architecture.
+1. Ensure `monitor7230.so` is compiled correctly and matches your system architecture.
 2. For incorrect or missing password files, the application will display an error message.
 
 ## License
