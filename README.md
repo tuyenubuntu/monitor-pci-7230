@@ -116,7 +116,6 @@ Use configuration.xml (config file), focus into tag "IO", example:
    <PORT function="Sent signal to Laser" id="4"/>
 </DO>
 ```
-```
 
 ## Files and Directories
 
