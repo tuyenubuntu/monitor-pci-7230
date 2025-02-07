@@ -59,6 +59,7 @@ def get_config(tag):
 
     # Parse file XML
     config_data = BeautifulSoup(config_file, 'xml')
+    size_config = {}
     di_config = {}
     do_config = {}
 
@@ -78,14 +79,24 @@ def get_config(tag):
             function = port['function']
             do_config[id_] = function
         return di_config, do_config
-    return None
+    for child in config_data.find(tag):
+        if child.name == None:
+                continue
+        if tag == "SIZE":
+            size_config[child.name] = list([int(value)
+                                        for value in child.string.split(",")])
+    return size_config
 
 #Enable for login by password or not
 login_config = get_config("LOGIN")
 enable_password = login_config.find("ENABLE_PASSWORD_LOGIN").string.lower() == 'true'
 #label list DI and DO
 di_functions, do_functions = get_config("IO")
-
+#config window size
+size_window = get_config("SIZE")
+# login_window = size_window["LOGIN_WINDOW"]
+# permission_window = size_window["PERMISSION_WINDOW"]
+# monitor_window = size_window["MONITOR_WINDOW"]
 class ColorLabel(QLabel):
     """Custom label to display colored square."""
     def __init__(self, color="red", parent=None):
@@ -108,9 +119,10 @@ class ColorLabel(QLabel):
 class LoginWindow(QWidget):
     def __init__(self, main_app):
         super().__init__()
+        login_window = size_window["LOGIN_WINDOW"]
         self.main_app = main_app
         self.setWindowTitle("Login")
-        self.setGeometry(800, 500, 400, 200)
+        self.setGeometry(login_window[0], login_window[1], login_window[2], login_window[3])
 
         # Đặt biểu tượng cho cửa sổ
         icon_path = os.path.abspath("Shortcut/IO_COM.png")  # Đường dẫn đầy đủ tới icon
@@ -167,8 +179,9 @@ class LoginWindow(QWidget):
 class PasswordDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
+        permission_window = size_window["PERMISSION_WINDOW"]
         self.setWindowTitle("Password Required")
-        self.setGeometry(850, 500, 300, 150)
+        self.setGeometry(permission_window[0], permission_window[1], permission_window[2], permission_window[3])
 
         layout = QVBoxLayout()
 
@@ -327,7 +340,9 @@ class MonitorApp(QWidget):
         self.timer.start(500)  # Update every 500ms
         
         #enabling resize
-        self.setGeometry(400, 300, 1290, 500)
+        # self.setGeometry(400, 300, 1850, 650)
+        monitor_window = size_window["MONITOR_WINDOW"]
+        self.setGeometry(monitor_window[0], monitor_window[1], monitor_window[2], monitor_window[3])
 
         # Biến flag để kiểm tra quyền
         self.has_permission = False
