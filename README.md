@@ -84,12 +84,38 @@ This application provides a GUI to monitor and control the input and output stat
 
 ## Resize/Config Windows
 
-Use configuration.xml (config file), focus into tag "SIZE":
+Use configuration.xml (config file), focus into tag "SIZE", example:
 ```xml
 <!-- <Name_window> x1,y1,x2,y2 </Name_window -->
 <LOGIN_WINDOW>800, 500, 400, 200</LOGIN_WINDOW>  
 <PERMISSION_WINDOW>770, 500, 400, 150</PERMISSION_WINDOW>
 <MONITOR_WINDOW>350, 300, 1250, 400</MONITOR_WINDOW>
+```
+
+## Label IO PINs
+
+Use configuration.xml (config file), focus into tag "IO", example:
+- For Digital Input:
+```xml
+<DI>
+   <PORT function="Laser completed" id="0"/>
+   <PORT function="Reserve" id="1"/>
+   <PORT function="Rework mode" id="2"/>
+   <PORT function="Reserve" id="3"/>
+   <PORT function="Reserve" id="4"/>
+</DI>
+```
+
+- For Digital Output:
+```xml
+<DO>
+   <PORT function="Green light" id="0"/>
+   <PORT function="Reserve" id="1"/>
+   <PORT function="Red light" id="2"/>
+   <PORT function="Reserve" id="3"/>
+   <PORT function="Sent signal to Laser" id="4"/>
+</DO>
+```
 ```
 
 ## Files and Directories
