@@ -11,6 +11,8 @@
     - [1. **Input Monitoring**:](#1-input-monitoring)
     - [2. **Output Control**:](#2-output-control)
     - [3. **Access Control**:](#3-access-control)
+      - [1. Login the application:](#1-login-the-application)
+      - [2. Grant Permission for modify value (Set/Reset):](#2-grant-permission-for-modify-value-setreset)
     - [4. **GUI Features**:](#4-gui-features)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -50,8 +52,18 @@ This application provides a GUI to monitor and control the input and output stat
    ![DO Space](Shortcut/images/DO.png)
 
 ### 3. **Access Control**:
+#### 1. Login the application:
    - Users must log in with a password to access the application.
    - A secondary password prompt is required for toggling output states.
+   ![Login](Shortcut/images/login.png)
+
+   If users don't want login when run application, Use configuration.xml (config file), focus into tag "LOGIN" and modify value in `ENABLE_PASSWORD_LOGIN` is False, `this only applies when opening the application`: 
+   ```xml
+   <ENABLE_PASSWORD_LOGIN>False</ENABLE_PASSWORD_LOGIN>
+   ```
+
+#### 2. Grant Permission for modify value (Set/Reset):
+   - Users must enter a password to access Set/Reset function.
    ![Permission](Shortcut/images/permission.png)
 
 ### 4. **GUI Features**:

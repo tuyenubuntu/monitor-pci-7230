@@ -1,7 +1,7 @@
 <configuration>
     <LINE_NAME>07</LINE_NAME>
     <LOGIN>
-        <ENABLE_PASSWORD_LOGIN>False</ENABLE_PASSWORD_LOGIN>
+        <ENABLE_PASSWORD_LOGIN>True</ENABLE_PASSWORD_LOGIN>
     </LOGIN>
     <IO>
         <DI>
