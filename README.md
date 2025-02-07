@@ -41,11 +41,13 @@ This application provides a GUI to monitor and control the input and output stat
    - Displays the real-time state of all 16 digital inputs (DI).
    - Uses color-coded labels: Green for `High` and Red for `Low`.
    - Descriptive labels for certain DI functions (e.g., "Laser completed", "Rework mode").
+   - ![DI Space](Shortcut/images/DI.png)
 
 ### 2. **Output Control**:
    - Allows toggling the state of all 16 digital outputs (DO).
    - Displays real-time state changes with color-coded labels.
    - Includes "Set All" and "Reset All" functionalities for batch control.
+   - - ![DO Space](Shortcut/images/DO.png)
 
 ### 3. **Access Control**:
    - Users must log in with a password to access the application.
