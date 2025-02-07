@@ -81,6 +81,17 @@ This application provides a GUI to monitor and control the input and output stat
    ```
    It is recommended that you enter creator and user  as "Admin"
 
+
+## Resize/Config Windows
+
+Use configuration.xml (config file), focus into tag "SIZE":
+```xml
+<!-- <Name_window> x1,y1,x2,y2 </Name_window -->
+<LOGIN_WINDOW>800, 500, 400, 200</LOGIN_WINDOW>  
+<PERMISSION_WINDOW>770, 500, 400, 150</PERMISSION_WINDOW>
+<MONITOR_WINDOW>350, 300, 1250, 400</MONITOR_WINDOW>
+```
+
 ## Files and Directories
 
 - `main.py`: Main application file.
