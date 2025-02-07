@@ -21,6 +21,8 @@
     - [4. **Password Management**:](#4-password-management)
   - [Resize/Config Windows](#resizeconfig-windows)
   - [Label IO PINs](#label-io-pins)
+    - [- For Digital Input:](#--for-digital-input)
+    - [- For Digital Output:](#--for-digital-output)
   - [Files and Directories](#files-and-directories)
   - [Known Issues](#known-issues)
   - [License](#license)
@@ -57,7 +59,7 @@ This application provides a GUI to monitor and control the input and output stat
 - Python 3.6+
 - PyQt5 library
 - `cryptography` library for password encryption and decryption.
-- PCI 7230 card and its corresponding library (`aiio.so`).
+- PCI 7230 card and its corresponding library (`monitor7230.so`).
 
 ## Installation
 
@@ -122,7 +124,7 @@ Use configuration.xml (config file), focus into tag "SIZE", example:
 ## Label IO PINs
 
 Use configuration.xml (config file), focus into tag "IO", example:
-- For Digital Input:
+### - For Digital Input:
 ```xml
 <DI>
    <!-- <PORT function="Function of pin, that mean label" id="pin number" /> -->
@@ -134,7 +136,7 @@ Use configuration.xml (config file), focus into tag "IO", example:
 </DI>
 ```
 
-- For Digital Output:
+### - For Digital Output:
 ```xml
 <DO>
    <!-- <PORT function="Function of pin, that mean label" id="pin number" /> -->
