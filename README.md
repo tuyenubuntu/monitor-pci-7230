@@ -33,6 +33,8 @@
 
 This application provides a GUI to monitor and control the input and output states of a PCI 7230 card. It includes features such as real-time input monitoring, output control, and user authentication for access control.
 
+![Mainly Work](Shortcut/images/main.png)
+
 ## Features
 
 ### 1. **Input Monitoring**:
