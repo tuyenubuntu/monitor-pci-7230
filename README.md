@@ -52,6 +52,7 @@ This application provides a GUI to monitor and control the input and output stat
 ### 3. **Access Control**:
    - Users must log in with a password to access the application.
    - A secondary password prompt is required for toggling output states.
+   ![Permission](Shortcut/images/permission.png)
 
 ### 4. **GUI Features**:
    - Modern and responsive PyQt5-based interface.
