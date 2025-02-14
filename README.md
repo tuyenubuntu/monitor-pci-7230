@@ -109,7 +109,24 @@ This application provides a GUI to monitor and control the input and output stat
 
    The user must ensure the correct paths that match the current system, including: `user`, `Conda path`, `conda environment name` , and `project path that was just cloned to the machine`.
 
+      ```sh
+      #!/bin/bash
+   echo Monitor IO card PCI-7230
+   source ~/anaconda3/etc/profile.d/conda.sh
+   conda activate monitor  # Activate conda environment
+   python3 /home/itmop/Documents/monitor-pci-7230/app.py  # Run application
+   ```
    ![Shortcut1](Shortcut/images/shortcut1.png)
+
+      ```sh
+   [Desktop Entry]
+   Type=Application
+   Name=Monitor App
+   Exec=bash -c "cd ~/Documents/monitor-pci-7230/ ;./Shortcut/monitor.sh; exec bash"
+   Icon=/home/itmop/Documents/monitor-pci-7230/Shortcut/IO_COM.png
+   Terminal=true
+   X-Desktop-File-Install-Version=0.23
+   ```
    ![Shortcut2](Shortcut/images/shortcut2.png)
 
    After that, copy `Shortcut/monitor.desktop` file to desktop and right-click on `monitor.desktop` → `Allow Launching`.
