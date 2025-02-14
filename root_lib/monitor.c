@@ -2,9 +2,7 @@
 #include <stdlib.h>  // Thêm thư viện này để dùng exit()
 #include <unistd.h>
 #include <pthread.h>
-#include "dask64.h"
-#include <windows.h>
-
+#include "dask.h"
 
 // Hàm để thiết lập trạng thái DO
 void SetDOState(U16 port, U32 val)

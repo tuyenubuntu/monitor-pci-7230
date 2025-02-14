@@ -82,6 +82,14 @@ This application provides a GUI to monitor and control the input and output stat
 
 1. Clone or download this repository.
 2. Ensure the required libraries are installed:
+   !!! Users can use conda to create a new environment for monitor, recommend:
+   
+   ```bash
+   conda create -n monitor python
+   ```
+
+   After that, install some libraries
+
    ```bash
    pip install PyQt5 cryptography
    ```
@@ -95,6 +103,16 @@ This application provides a GUI to monitor and control the input and output stat
    ```
 3. Place the PCI 7230 library (`monitor7230.so`) in the root directory of the project.
 4. Ensure the `cryptlog.py` module is available for handling encrypted passwords.
+5. Use a shortcut to quickly open the app from the desktop.
+
+   Check the paths in the `Shortcut/monitor.sh` executable file and the `Shortcut/monitor.desktop` file.
+
+   The user must ensure the correct paths that match the current system, including: `user`, `Conda path`, `conda environment name` , and `project path that was just cloned to the machine`.
+
+   ![Shortcut1](Shortcut/images/Shortcut1.png)
+   ![Shortcut2](Shortcut/images/Shortcut2.png)
+
+   After that, copy `Shortcut/monitor.desktop` file to desktop and right-click on `monitor.desktop` → `Allow Launching`.
 
 ## Usage
 
