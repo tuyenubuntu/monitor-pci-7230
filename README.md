@@ -109,8 +109,8 @@ This application provides a GUI to monitor and control the input and output stat
 
    The user must ensure the correct paths that match the current system, including: `user`, `Conda path`, `conda environment name` , and `project path that was just cloned to the machine`.
 
-   ![Shortcut1](Shortcut/images/Shortcut1.png)
-   ![Shortcut2](Shortcut/images/Shortcut2.png)
+   ![Shortcut1](Shortcut/images/shortcut1.png)
+   ![Shortcut2](Shortcut/images/shortcut2.png)
 
    After that, copy `Shortcut/monitor.desktop` file to desktop and right-click on `monitor.desktop` → `Allow Launching`.
 
