@@ -17,6 +17,7 @@ def get_do():
 
 def set_do(port, val):
     """Giả lập set output value cho DO[port]."""
+    print (f"Digital Output {port} has been assigned : {val}")
     return "OK"
 
 def get_di():
