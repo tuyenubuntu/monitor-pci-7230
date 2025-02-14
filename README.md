@@ -137,7 +137,7 @@ This application provides a GUI to monitor and control the input and output stat
 ### 1. **Running the Application**:
    Ubuntu os
    ```bash
-   python app.py
+   python3 app.py
    ```
 
    Windows os (just UI) for test Graphics
