@@ -82,7 +82,8 @@ This application provides a GUI to monitor and control the input and output stat
 
 1. Clone or download this repository.
 2. Ensure the required libraries are installed:
-   !!! Users can use conda to create a new environment for monitor, recommend:
+
+   `Users can use conda to create a new environment for monitor, recommend:`
    
    ```bash
    conda create -n monitor python
