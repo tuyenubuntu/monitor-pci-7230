@@ -1,0 +1,101 @@
+#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <time.h>
+#include "Dask.h"
+#include "resource.h"
+
+// // Thêm dòng này vào đầu file
+// __declspec(dllexport) void myFunction() {
+//     // Code của bạn
+// }
+
+__declspec(dllexport) void SetDOState(U16 port, U32 val)
+{
+    I16 card = -1, card_number = 0;
+    if((card = Register_Card(PCI_7230, card_number)) < 0){
+        printf("Can't open device file: PCI7230\n");
+        exit(-1);
+    }
+    DO_WritePort(card, port, val);
+    if(card >= 0){
+        Release_Card(card);
+    }
+}
+
+// Hàm để lấy trạng thái DI từ một port
+__declspec(dllexport) U32 GetDIState(U16 port)
+{
+    I16 card = -1, card_number = 0;
+    U32 input = 0;
+    if((card = Register_Card(PCI_7230, card_number)) < 0){
+        printf("Can't open device file: PCI7230\n");
+        exit(-1);
+    }
+    DI_ReadPort(card, port, &input);
+    if(card >= 0){
+        Release_Card(card);
+    }
+    return input;
+}
+
+// Hàm để lấy trạng thái DO từ một port
+__declspec(dllexport) U32 GetDOState(U16 port)
+{
+    I16 card = -1, card_number = 0;
+    U32 output = 0;
+    if((card = Register_Card(PCI_7230, card_number)) < 0){
+        printf("Can't open device file: PCI7230\n");
+        exit(-1);
+    }
+    if (DO_ReadPort(card, port, &output) < 0) {
+        printf("Error reading DO state from port %d\n", port);
+        if(card >= 0){
+            Release_Card(card);
+        }
+        exit(-1);
+    }
+    if(card >= 0){
+        Release_Card(card);
+    }
+    return output;
+}
+
+// Hàm để lấy trạng thái của một dòng DI cụ thể
+__declspec(dllexport) U16 GetDIState_Line(U16 port, U16 line)
+{
+    I16 card = -1, card_number = 0;
+    U16 state;
+    if((card = Register_Card(PCI_7230, card_number)) < 0){
+        printf("Can't open device file: PCI7230\n");
+        exit(-1);
+    }
+    DI_ReadLine(card, port, line, &state);
+    if(card >= 0){
+        Release_Card(card);
+    }
+    return state;
+}
+
+// Hàm để lấy trạng thái của một dòng DO cụ thể
+__declspec(dllexport) U16 GetDOState_Line(U16 port, U16 line)
+{
+    I16 card = -1, card_number = 0;
+    U16 state;
+    if((card = Register_Card(PCI_7230, card_number)) < 0){
+        printf("Can't open device file: PCI7230\n");
+        exit(-1);
+    }
+    DO_ReadLine(card, port, line, &state);
+    if(card >= 0){
+        Release_Card(card);
+    }
+    return state;
+}
+
+// int main() {
+//     printf("Hello, World!\n");
+//     return 0;
+// }
