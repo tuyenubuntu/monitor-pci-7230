@@ -2,3 +2,4 @@ login/acer
 login/pci
 login/Admin
 config/configuration.xml
+__pycache__

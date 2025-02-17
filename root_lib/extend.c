@@ -3,21 +3,6 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "dask.h"
-#include <stdint.h> // cho uint16_t
-#include <windows.h>
-
-
-
-typedef uint16_t DASK_USHORT;  // Rename USHORT to DASK_USHORT
-typedef int DASK_BOOLEAN;      // Rename BOOLEAN to DASK_BOOLEAN
-
-#ifndef BOOLEAN
-    typedef int DASK_BOOLEAN;
-#endif
-
-#ifndef HANDLE
-    typedef void* DASK_HANDLE;
-#endif
 
 
 // Hàm để thiết lập trạng thái DO
